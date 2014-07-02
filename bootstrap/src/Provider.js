@@ -3,8 +3,9 @@ var Provider = (function() {
 
     return {
         _providers: {},
-        // _cache: new Scope(),
-        _cache: {},
+        _cache: {
+            rootScope: new Scope(0, null),
+        },
         _register: function(fn, name) {
             this._providers[name] = fn;
         },
@@ -44,9 +45,14 @@ var Provider = (function() {
         },
         invoke: function(fn, locals) {
             var self = this,
+                locals = locals || {},
                 params = this.annotate(fn),
                 args = params.map(function(param) {
-                    return self.get(param, locals);
+                    if (param in locals) {
+                        return locals[param];
+                    } else {
+                        return self.get(param, locals);
+                    }
                 });
                 return fn.apply(null, args);
         },
@@ -55,17 +61,63 @@ var Provider = (function() {
     };
 })();
 
+// (function() {
+//     var newTwo = function() {
+//         console.log('New function Two');
+//     };
+
+//     Provider.service('One', function One(Two, Three) {
+//         return function() {
+//             console.log('function One');
+//             Two();
+//             Three();
+//         };
+//     });
+//     Provider.service('Two', function Two() {
+//         return function() {
+//             console.log('function Two');
+//         };
+//     });
+//     Provider.service('Three', function Three() {
+//         return function() {
+//             console.log('function Three');
+//         };
+//     });
+//     Provider.get('One', {Two: newTwo})();
+// })();
+
+
 (function() {
-    Provider.service('One', function One(Two) {
+    Provider.service('ScopeTest', function ScopeTest(rootScope) {
         return function() {
-            console.log('function One');
-            Two();
+            var parent = rootScope.$new(),
+                child = parent.$new();
+
+            parent.foo = 'foo';
+            parent.bar = 'bar';
+            parent.foobar = function() {
+                return 'in parent';
+            };
+            child.bar = 'childbar';
+            child.foobar = function() {
+                return 'in child';
+            };
+
+            console.log('parent.foo: ' + parent.$eval('foo'));
+            console.log('parent.bar: ' + parent.$eval('bar'));
+            console.log('parent.foobar(): ' + parent.$eval('foobar()'));
+            console.log('child.foo: ' + child.$eval('foo'));
+            console.log('child.bar: ' + child.$eval('bar'));
+            console.log('child.foobar(): ', child.$eval('foobar()'));
+
+            child.$watch('foo', function () {
+                console.log('foo changed');
+            });
+
+            child.foo = 'foofoo';
+            child.$digest();
         };
     });
-    Provider.service('Two', function Two() {
-        return function() {
-            console.log('function Two');
-        };
-    });
-    Provider.invoke(Provider.get('One'));
+
+    Provider.get('ScopeTest')();
 })();
