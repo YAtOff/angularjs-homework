@@ -1,4 +1,6 @@
 var DOMCompiler = (function() {
+    'use strict';
+
     return {
         bootstrap: function() {
             this.compile(document.body, Provider.get('rootScope'));
