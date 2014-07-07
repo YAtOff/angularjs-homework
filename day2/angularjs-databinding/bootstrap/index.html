@@ -7,6 +7,8 @@
 <body ngl-controller="TodoCtrl">
   <section>
     <input type="text" ngl-model="todo.text">
+    <br>
+    <input type="text" ngl-model="todo.text">
     <button ngl-click="add()">Add</button>
     <ul>
       <li ngl-repeat="todo in todos | pending">

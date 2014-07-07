@@ -40,6 +40,7 @@ Provider.directive('ngl-repeat', function () {
                 itemsExp = groups[2];
                 // add watch for items
                 scope.$watch(itemsExp, watcher);
+                watcher();
             }
         }
     };

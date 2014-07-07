@@ -53,23 +53,27 @@ var Scope = (function() {
     };
 
     Scope.prototype.$$publish = function(event, data) {
-        if (!this.topics[event.topic]) {
+        if (!this.$$topics[event.topic]) {
             return false;
         }
-        var subscribers = this.topics[event.topic],
-            len = subscribers ? subscribers.length : 0,
+        var subscribers = this.$$topics[event.topic],
+            len = subscribers ? subscribers.length : 0;
         while (len--) {
             subscribers[len](event, data);
         }
     };
 
-    Scope.prototype.$broadcast = function(topic, data) {
-        var event, i;
+    Scope.prototype.$$getEvent = function(topic) {
         if (typeof topic === 'string') {
-            event ={topic: topic, stopPropagation: false}; 
+            return {topic: topic, stopPropagation: false}; 
         } else {
-            event = topic;
+            return topic;
         }
+    };
+
+    Scope.prototype.$broadcast = function(topic, data) {
+        var event = this.$$getEvent(topic),
+            i;
         this.$$publish(event, data);
         for (i = 0; i < this.$$children.length; i += 1) {
             if (event.stopPropagation) {
@@ -80,12 +84,7 @@ var Scope = (function() {
     };
 
     Scope.prototype.$emit = function(topic, data) {
-        var event;
-        if (typeof topic === 'string') {
-            event ={topic: topic, stopPropagation: false}; 
-        } else {
-            event = topic;
-        }
+        var event = this.$$getEvent(topic);
         this.$$publish(event, data);
         if (!event.stopPropagation) {
             this.$parent.$emit(topic, data);
@@ -93,10 +92,10 @@ var Scope = (function() {
     };
 
     Scope.prototype.$on = function(topic, callback) {
-        if (!this.topics[topic]) {
-            this.topics[topic] = [];
+        if (!this.$$topics[topic]) {
+            this.$$topics[topic] = [];
         }
-        this.opics[topic].push(callback);
+        this.$$topics[topic].push(callback);
         return this;
     };
 
