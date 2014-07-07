@@ -1,6 +1,6 @@
 var evaluate = (function() {
     var lex = function (input) {
-        var isOperator = function (c) { return /[+\-*\/\^%=(),]/.test(c); },
+        var isOperator = function (c) { return /[+\-*\/\^%=(),.]/.test(c); },
             isDigit = function (c) { return /[0-9]/.test(c); },
             isWhiteSpace = function (c) { return /\s/.test(c); },
             isIdentifier = function (c) { return typeof c === "string" && !isOperator(c) && !isDigit(c) && !isWhiteSpace(c); };
@@ -131,6 +131,7 @@ var evaluate = (function() {
             return value;
         });
 
+        infix(".", 8);
         prefix("-", 7);
         infix("^", 6, 5);
         infix("*", 4);
@@ -164,6 +165,7 @@ var evaluate = (function() {
             "*": function (a, b) { return a * b; },
             "/": function (a, b) { return a / b; },
             "%": function (a, b) { return a % b; },
+            ".": function (a, b) { return a[b]; }
         };
 
         var args = {
@@ -171,7 +173,9 @@ var evaluate = (function() {
 
         var parseNode = function (node) {
             if (node.type === "number") return node.value;
-            else if (operators[node.type]) {
+            else if (node.type === ".") {
+                return parseNode(node.left)[node.right.value];
+            } else if (operators[node.type]) {
                 if (node.left) return operators[node.type](parseNode(node.left), parseNode(node.right));
                 return operators[node.type](parseNode(node.right));
             }

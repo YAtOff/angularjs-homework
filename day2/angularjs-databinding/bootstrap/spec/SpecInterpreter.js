@@ -10,4 +10,13 @@ describe('Interpreter specification', function() {
         evaluate('foo = bar(foo)', ctx);
         expect(ctx.foo).toEqual(2);
     });
+
+    it('does property lookup', function() {
+        var ctx = {
+            foo: {
+                bar: 'baz'
+            }
+        };
+        expect(evaluate('foo.bar', ctx)).toEqual('baz');
+    });
 });
