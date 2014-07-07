@@ -6,6 +6,7 @@ var Scope = (function() {
         this.$$children = [];
         this.$parent = parent;
         this.$id = id || 0;
+        this.$$topics = {};
     };
     Scope.counter = 0;
 
@@ -49,6 +50,54 @@ var Scope = (function() {
                 }
             }
         }
+    };
+
+    Scope.prototype.$$publish = function(event, data) {
+        if (!this.topics[event.topic]) {
+            return false;
+        }
+        var subscribers = this.topics[event.topic],
+            len = subscribers ? subscribers.length : 0,
+        while (len--) {
+            subscribers[len](event, data);
+        }
+    };
+
+    Scope.prototype.$broadcast = function(topic, data) {
+        var event, i;
+        if (typeof topic === 'string') {
+            event ={topic: topic, stopPropagation: false}; 
+        } else {
+            event = topic;
+        }
+        this.$$publish(event, data);
+        for (i = 0; i < this.$$children.length; i += 1) {
+            if (event.stopPropagation) {
+                return;
+            }
+            this.$$children[i].$broadcast(event, data);
+        }
+    };
+
+    Scope.prototype.$emit = function(topic, data) {
+        var event;
+        if (typeof topic === 'string') {
+            event ={topic: topic, stopPropagation: false}; 
+        } else {
+            event = topic;
+        }
+        this.$$publish(event, data);
+        if (!event.stopPropagation) {
+            this.$parent.$emit(topic, data);
+        }
+    };
+
+    Scope.prototype.$on = function(topic, callback) {
+        if (!this.topics[topic]) {
+            this.topics[topic] = [];
+        }
+        this.opics[topic].push(callback);
+        return this;
     };
 
     return Scope;

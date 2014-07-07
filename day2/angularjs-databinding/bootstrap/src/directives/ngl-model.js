@@ -13,6 +13,9 @@ Provider.directive('ngl-model', function () {
                 model[parts[parts.length - 1]] = el.value;
                 scope.$digest();
             };
+            scope.$watch(exp, function() {
+                el.value = scope.$eval(exp);
+            });
         }
     };
 });
