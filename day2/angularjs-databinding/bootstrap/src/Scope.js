@@ -7,19 +7,9 @@ var Scope = function(id, parent) {
 };
 Scope.counter = 0;
 
-Scope.prototype.$eval = function(expr) {
+Scope.prototype.$eval = function(exp) {
     'use strict';
-    var groups = expr.match(/([a-zA-Z_$][0-9a-zA-Z_$]*)/),
-        isMethod = expr.indexOf('()', expr.length - 2) !== -1,
-        prop;
-    if (!!groups) {
-        prop = this[groups[1]];
-        if (isMethod) {
-            return prop();
-        } else {
-            return prop;
-        }
-    }
+    return evaluate(exp, this);
 };
 
 Scope.prototype.$watch = function(exp, fn) {
