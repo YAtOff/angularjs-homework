@@ -7,8 +7,11 @@
 <body ngl-controller="TodoCtrl">
   <section>
     <input type="text" ngl-model="todo">
-    <p ngl-bind="todo">foo</p>
-    <button ngl-click="foo()">click</button>
+    <button ngl-click="add()">add</button>
+    <p ngl-bind="todo"></p>
+    <ul>
+        <li ngl-repeat="todo in todos" ngl-bind="todo"></li>
+    </ul>
   </section>
   <script src="src/Utils.js"></script>
   <script src="src/Scope.js"></script>
