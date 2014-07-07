@@ -6,10 +6,13 @@
 </head>
 <body ngl-controller="TodoCtrl">
   <section>
-    <input type="text" ngl-model="todo">
+    <input type="text" ngl-model="todo.text">
     <button ngl-click="add()">Add</button>
     <ul>
-      <li ngl-repeat="todo in todos" ngl-bind="todo"></li>
+      <li ngl-repeat="todo in todos | pending">
+        <input type="checkbox" ngl-model="todo.isDone">
+        <span ngl-bind="todo.text"></span>
+      </li>
     </ul>
   </section>
   <script src="src/Utils.js"></script>
@@ -17,6 +20,7 @@
   <script src="src/Scope.js"></script>
   <script src="src/Provider.js"></script>
   <script src="src/DOMCompiler.js"></script>
+  <script src="src/filters.js"></script>
   <script src="src/directives/ngl-bind.js"></script>
   <script src="src/directives/ngl-model.js"></script>
   <script src="src/directives/ngl-click.js"></script>

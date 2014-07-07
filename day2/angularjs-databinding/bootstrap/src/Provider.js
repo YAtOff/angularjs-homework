@@ -23,6 +23,9 @@ var Provider = (function() {
         controller: function(name, fn) {
             this._register(fn, name + this.CONTROLLERS_SUFFIX);
         },
+        filter: function(name, fn) {
+            this._register(fn, name + this.FILTER_SUFFIX);
+        },
         service: function(name, fn) {
             this._register(fn, name);
         },
@@ -56,7 +59,8 @@ var Provider = (function() {
                 });
                 return fn.apply(null, args);
         },
-        DIRECTIVES_SUFFIX: "Directive",
-        CONTROLLERS_SUFFIX: "Controller"
+        DIRECTIVES_SUFFIX: 'Directive',
+        CONTROLLERS_SUFFIX: 'Controller',
+        FILTER_SUFFIX: 'Filter'
     };
 })();

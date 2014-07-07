@@ -25,7 +25,7 @@ var Scope = (function() {
         var scope;
         Scope.counter += 1;
         scope = Object.create(this);
-        Scope.call(scope,Scope.counter, this); 
+        Scope.call(scope, Scope.counter, this); 
         this.$$children.push(scope);
         return scope;
     };

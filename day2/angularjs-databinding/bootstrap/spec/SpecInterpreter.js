@@ -19,4 +19,21 @@ describe('Interpreter specification', function() {
         };
         expect(evaluate('foo.bar', ctx)).toEqual('baz');
     });
+
+    it('applies simple filters', function() {
+        Provider.filter('positive', function() {
+            return function(vals) {
+                return vals.filter(function(v) {
+                    return 0 <= v;
+                });
+            };
+        });
+
+        var ctx = {
+            foo: [1, -1, 2]
+        };
+
+        expect(Provider.get('positiveFilter')(ctx.foo)).toEqual([1, 2]);
+        expect(evaluate('foo | positive', ctx)).toEqual([1, 2]);
+    });
 });

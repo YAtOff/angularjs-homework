@@ -1,6 +1,6 @@
 var evaluate = (function() {
     var lex = function (input) {
-        var isOperator = function (c) { return /[+\-*\/\^%=(),.]/.test(c); },
+        var isOperator = function (c) { return /[+\-*\/\^%=(),.|]/.test(c); },
             isDigit = function (c) { return /[0-9]/.test(c); },
             isWhiteSpace = function (c) { return /\s/.test(c); },
             isIdentifier = function (c) { return typeof c === "string" && !isOperator(c) && !isDigit(c) && !isWhiteSpace(c); };
@@ -131,7 +131,8 @@ var evaluate = (function() {
             return value;
         });
 
-        infix(".", 8);
+        infix(".", 9);
+        infix("|", 8);
         prefix("-", 7);
         infix("^", 6, 5);
         infix("*", 4);
@@ -164,8 +165,7 @@ var evaluate = (function() {
             },
             "*": function (a, b) { return a * b; },
             "/": function (a, b) { return a / b; },
-            "%": function (a, b) { return a % b; },
-            ".": function (a, b) { return a[b]; }
+            "%": function (a, b) { return a % b; }
         };
 
         var args = {
@@ -175,6 +175,9 @@ var evaluate = (function() {
             if (node.type === "number") return node.value;
             else if (node.type === ".") {
                 return parseNode(node.left)[node.right.value];
+            } else if (node.type === "|") {
+                var filter = Provider.get(node.right.value + Provider.FILTER_SUFFIX);
+                return filter(parseNode(node.left));
             } else if (operators[node.type]) {
                 if (node.left) return operators[node.type](parseNode(node.left), parseNode(node.right));
                 return operators[node.type](parseNode(node.right));

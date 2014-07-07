@@ -9,8 +9,8 @@ var DOMCompiler = (function() {
             var directives = [],
                 attrName, attrVal,
                 newScope = scope,
-                directive,
-                k, i,
+                directive, directiveName,
+                k, i, exp,
                 elementAttributes = el.attributes || [],
                 elementChildNodes = el.childNodes || [];
 

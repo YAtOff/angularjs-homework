@@ -4,9 +4,9 @@
         return function(scope) {
             scope.todos = [
             ];
-            scope.todo = '';
+            scope.todo = {text: '', isDone: false};
             scope.add = function() {
-                scope.todos.push(scope.todo);
+                scope.todos.push({text: scope.todo.text, isDone: false});
             };
         };
     });
