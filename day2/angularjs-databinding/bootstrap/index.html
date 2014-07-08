@@ -4,37 +4,22 @@
   <meta charset="UTF-8">
   <title></title>
   <style>
-      .red {
-          color: red;
-      }
-      .blue {
-          color: blue;
-      }
-      .big {
-          font-size: 20px;
-      }
-      .green {
-          color: green;
+      .completed {
+          text-decoration: line-through;
       }
   </style>
 </head>
 <body ngl-controller="TodoCtrl">
   <section>
     <input type="text" ngl-model="todo.title">
-    <br>
-    <input type="text" ngl-model="todo.title">
     <button ngl-click="add()">Add</button>
     <ul>
-      <li ngl-repeat="todo in todos | pending">
+      <li ngl-repeat="todo in todos">
         <input type="checkbox" ngl-model="todo.completed">
-        <span ngl-bind="todo.title"></span>
+        <span ngl-bind="todo.title" ngl-class="{completed: todo.completed}"></span>
         <button ngl-click="remove($index)">remove</button>
       </li>
     </ul>
-    <br>
-    <p ngl-class="{red: redEnabled, blue: blueEnabled}">in red</p>
-    <p ngl-class="{red: !redEnabled, blue: !blueEnabled}">in blue</p>
-    <p ngl-class="[big, green]">big and green</p>
   </section>
   <script src="src/Utils.js"></script>
   <script src="src/Interpreter.js"></script>

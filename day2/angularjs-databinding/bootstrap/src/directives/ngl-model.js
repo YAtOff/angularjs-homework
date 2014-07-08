@@ -10,11 +10,15 @@ Provider.directive('ngl-model', function () {
                 for (i = 0; i < parts.length - 1; i += 1) {
                     model = model[parts[i]];
                 }
-                model[parts[parts.length - 1]] = el.value;
+                model[parts[parts.length - 1]] = el.type === 'checkbox'? el.checked : el.value;
                 scope.$digest();
             };
             scope.$watch(exp, function() {
-                el.value = scope.$eval(exp);
+                if (el.type === 'checkbox') {
+                    el.checked = scope.$eval(exp);
+                } else {
+                    el.value = scope.$eval(exp);
+                }
             });
         }
     };
