@@ -24,6 +24,7 @@ Provider.directive('ngl-repeat', function () {
                         newScope = scope.$new();
                         // put item in it
                         newScope[itemName] = items[i];
+                        newScope.$index = i;
                         newScope.$watch(itemsExp, watcher);
                         // compile node with new scope
                         DOMCompiler.compile(itemElement, newScope);

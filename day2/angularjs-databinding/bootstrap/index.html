@@ -14,6 +14,7 @@
       <li ngl-repeat="todo in todos | pending">
         <input type="checkbox" ngl-model="todo.completed">
         <span ngl-bind="todo.title"></span>
+        <button ngl-click="remove($index)">remove</button>
       </li>
     </ul>
   </section>
