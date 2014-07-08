@@ -3,7 +3,7 @@ var DOMCompiler = (function() {
 
     return {
         bootstrap: function() {
-            this.compile(document.body, Provider.get('rootScope'));
+            this.compile(document.body, Provider.get('$rootScope'));
         },
         compile: function(el, scope) {
             var directives = [],

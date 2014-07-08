@@ -4,9 +4,9 @@ var Provider = (function() {
     return {
         _providers: {},
         _cache: {
-            rootScope: new Scope(0, null),
+            $rootScope: new Scope(0, null),
         },
-        _register: function(fn, name) {
+        _register: function(name, fn) {
             this._providers[name] = fn;
         },
         get: function(name, locals) {
@@ -18,16 +18,18 @@ var Provider = (function() {
             }
         },
         directive: function(name, fn) {
-            this._register(fn, name + this.DIRECTIVES_SUFFIX);
+            this._register(name + this.DIRECTIVES_SUFFIX, fn);
         },
         controller: function(name, fn) {
-            this._register(fn, name + this.CONTROLLERS_SUFFIX);
+            this._register(name + this.CONTROLLERS_SUFFIX, function () {
+                return fn;
+            });
         },
         filter: function(name, fn) {
-            this._register(fn, name + this.FILTER_SUFFIX);
+            this._register(name + this.FILTER_SUFFIX, fn);
         },
         service: function(name, fn) {
-            this._register(fn, name);
+            this._register(name, fn);
         },
         annotate: function(fn) {
             var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,

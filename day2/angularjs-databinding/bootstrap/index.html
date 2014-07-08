@@ -6,14 +6,14 @@
 </head>
 <body ngl-controller="TodoCtrl">
   <section>
-    <input type="text" ngl-model="todo.text">
+    <input type="text" ngl-model="todo.title">
     <br>
-    <input type="text" ngl-model="todo.text">
+    <input type="text" ngl-model="todo.title">
     <button ngl-click="add()">Add</button>
     <ul>
       <li ngl-repeat="todo in todos | pending">
-        <input type="checkbox" ngl-model="todo.isDone">
-        <span ngl-bind="todo.text"></span>
+        <input type="checkbox" ngl-model="todo.completed">
+        <span ngl-bind="todo.title"></span>
       </li>
     </ul>
   </section>

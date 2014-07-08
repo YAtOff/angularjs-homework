@@ -1,13 +1,11 @@
 (function() {
-    Provider.controller('TodoCtrl', function () {
+    Provider.controller('TodoCtrl', function ($scope) {
         'use strict';
-        return function(scope) {
-            scope.todos = [
-            ];
-            scope.todo = {text: '', isDone: false};
-            scope.add = function() {
-                scope.todos.push({text: scope.todo.text, isDone: false});
-            };
+        $scope.todos = [
+        ];
+        $scope.todo = {title: '', completed: false};
+        $scope.add = function() {
+            $scope.todos.push({title: $scope.todo.title, completed: false});
         };
     });
 

@@ -1,8 +1,8 @@
 describe('Scope specification', function() {
 
-    Provider.service('ScopeEvalTest', function ScopeTest(rootScope) {
+    Provider.service('ScopeEvalTest', function ScopeTest($rootScope) {
         return function() {
-            var parent = rootScope.$new(),
+            var parent = $rootScope.$new(),
                 child = parent.$new();
 
             parent.foo = 'foo';
@@ -24,9 +24,9 @@ describe('Scope specification', function() {
         };
     });
 
-    Provider.service('ScopeWatchTest', function ScopeWatchTest(rootScope) {
+    Provider.service('ScopeWatchTest', function ScopeWatchTest($rootScope) {
         return function() {
-            var scope = rootScope.$new();
+            var scope = $rootScope.$new();
 
             scope.foo = 'foo';
             scope.onFooChanged = function() {};
