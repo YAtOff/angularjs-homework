@@ -1,6 +1,6 @@
 var evaluate = (function() {
     var lex = function (input) {
-        var isOperator = function (c) { return /[+\-*\/\^%=(),.|]/.test(c); },
+        var isOperator = function (c) { return /[+\-*\/\^%=(),.|!]/.test(c); },
             isDigit = function (c) { return /[0-9]/.test(c); },
             isWhiteSpace = function (c) { return /\s/.test(c); },
             isIdentifier = function (c) { return typeof c === "string" && !isOperator(c) && !isDigit(c) && !isWhiteSpace(c); };
@@ -133,6 +133,7 @@ var evaluate = (function() {
 
         infix(".", 9);
         infix("|", 8);
+        prefix("!", 7);
         prefix("-", 7);
         infix("^", 6, 5);
         infix("*", 4);
@@ -165,7 +166,8 @@ var evaluate = (function() {
             },
             "*": function (a, b) { return a * b; },
             "/": function (a, b) { return a / b; },
-            "%": function (a, b) { return a % b; }
+            "%": function (a, b) { return a % b; },
+            "!": function (a, b) { return !a; }
         };
 
         var args = {

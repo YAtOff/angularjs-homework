@@ -10,6 +10,11 @@
         $scope.remove = function(index) {
             $scope.todos.splice(index, 1);
         };
+
+        $scope.redEnabled = true;
+        $scope.blueEnabled = false;
+        $scope.big = 'big';
+        $scope.green = 'green';
     });
 
     DOMCompiler.bootstrap();

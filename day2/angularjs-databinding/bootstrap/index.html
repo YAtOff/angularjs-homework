@@ -3,6 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
+  <style>
+      .red {
+          color: red;
+      }
+      .blue {
+          color: blue;
+      }
+      .big {
+          font-size: 20px;
+      }
+      .green {
+          color: green;
+      }
+  </style>
 </head>
 <body ngl-controller="TodoCtrl">
   <section>
@@ -17,6 +31,10 @@
         <button ngl-click="remove($index)">remove</button>
       </li>
     </ul>
+    <br>
+    <p ngl-class="{red: redEnabled, blue: blueEnabled}">in red</p>
+    <p ngl-class="{red: !redEnabled, blue: !blueEnabled}">in blue</p>
+    <p ngl-class="[big, green]">big and green</p>
   </section>
   <script src="src/Utils.js"></script>
   <script src="src/Interpreter.js"></script>
@@ -29,6 +47,7 @@
   <script src="src/directives/ngl-click.js"></script>
   <script src="src/directives/ngl-controller.js"></script>
   <script src="src/directives/ngl-repeat.js"></script>
+  <script src="src/directives/ngl-class.js"></script>
 
   <script src="src/services/interval.js"></script>
   <script src="src/services/timeout.js"></script>

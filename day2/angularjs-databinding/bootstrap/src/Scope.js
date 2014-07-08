@@ -52,41 +52,30 @@ var Scope = (function() {
         }
     };
 
-    Scope.prototype.$$publish = function(event, data) {
-        if (!this.$$topics[event.topic]) {
+    Scope.prototype.$$publish = function(topic, data) {
+        var event = {topic: topic, stopPropagation: false};
+        if (!this.$$topics[topic]) {
             return false;
         }
-        var subscribers = this.$$topics[event.topic],
+        var subscribers = this.$$topics[topic],
             len = subscribers ? subscribers.length : 0;
         while (len--) {
             subscribers[len](event, data);
         }
-    };
-
-    Scope.prototype.$$getEvent = function(topic) {
-        if (typeof topic === 'string') {
-            return {topic: topic, stopPropagation: false}; 
-        } else {
-            return topic;
-        }
+        return !event.stopPropagation;
     };
 
     Scope.prototype.$broadcast = function(topic, data) {
-        var event = this.$$getEvent(topic),
-            i;
-        this.$$publish(event, data);
-        for (i = 0; i < this.$$children.length; i += 1) {
-            if (event.stopPropagation) {
-                return;
+        var i;
+        if (this.$$publish(topic, data)) {
+            for (i = 0; i < this.$$children.length; i += 1) {
+                this.$$children[i].$broadcast(event, data);
             }
-            this.$$children[i].$broadcast(event, data);
         }
     };
 
     Scope.prototype.$emit = function(topic, data) {
-        var event = this.$$getEvent(topic);
-        this.$$publish(event, data);
-        if (!event.stopPropagation) {
+        if (this.$$publish(topic, data)) {
             this.$parent.$emit(topic, data);
         }
     };
