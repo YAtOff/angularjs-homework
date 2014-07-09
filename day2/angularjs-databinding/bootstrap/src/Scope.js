@@ -37,7 +37,8 @@ var Scope = (function() {
 
     Scope.prototype.$digest = function() {
         var durty = true,
-            watcher, expResult;
+            watcher, expResult,
+            i;
         while (durty) {
             durty = false;
             for (var i = 0; i < this.$$watchers.length; i += 1) {
@@ -49,6 +50,10 @@ var Scope = (function() {
                     watcher.fn();
                 }
             }
+        }
+
+        for (i = 0; i < this.$$children.length; i += 1) {
+            this.$$children[i].$digest();
         }
     };
 
