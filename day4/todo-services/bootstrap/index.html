@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todo">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body ng-controller="TodoCtrl">
+  <label for="title-input">Todo title:
+    <input type="text" name="title-input" class="form-input" ng-model="todoTitle">
+  </label>
+  <button class="btn btn-primary" ng-click="add()">Add</button>
+  <ul>
+    <li ng-repeat="todo in todos">
+      <a href="#" ng-click="remove(todo)">[X]</a>
+    </li>
+  </ul>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="src/app.js"></script>
+  <script src="src/TodoCtrl.js"></script>
+  <script src="src/Todo.js"></script>
+  <script src="src/storage.js"></script>
+  <script src="src/storageDecorator.js"></script>
+</body>
+</html>
