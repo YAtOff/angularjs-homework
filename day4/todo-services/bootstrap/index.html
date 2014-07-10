@@ -12,6 +12,7 @@
   <button class="btn btn-primary" ng-click="add()">Add</button>
   <ul>
     <li ng-repeat="todo in todos">
+      <span ng-bind="todo.title"></span>
       <a href="#" ng-click="remove(todo)">[X]</a>
     </li>
   </ul>

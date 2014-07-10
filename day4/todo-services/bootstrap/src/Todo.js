@@ -12,7 +12,7 @@
             this.title = data.title;
             this.date = data.date;
             this.id = data.id;
-        };
+        }
 
         Todo.prototype.save = function save() {
             todos.push(this);
@@ -30,7 +30,7 @@
                 return new Todo({
                     title: todo.title,
                     id: i,
-                    data: todo.data
+                    date: todo.date
                 });
             });
         };

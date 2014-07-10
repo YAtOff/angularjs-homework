@@ -5,7 +5,10 @@
     TodoApp.controller('TodoCtrl', ['$scope', 'Todo', function TodoCtrl($scope, Todo) {
         $scope.todos = Todo.getList();
         $scope.add = function add() {
-            var todo = new Todo($scope.todoTitle, new window.Date());
+            var todo = new Todo({
+                title: $scope.todoTitle,
+                date: new window.Date()
+            });
             todo.save();
             $scope.todos = Todo.getList();
             $scope.todoTitle = '';
