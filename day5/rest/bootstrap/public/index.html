@@ -12,24 +12,24 @@
 </head>
 <body data-ng-app="todo" data-ng-controller="TodoCtrl">
   <label for="title-input">Todo title:
-    <input type="text" name="title-input" class="form-input">
+    <input type="text" name="title-input" class="form-input" data-ng-model="todoTitle">
   </label>
   <br>
   <label for="until-date-input">Completed until:
-    <input type="date" class="form-input" name="until-date-input">
-    <input type="time" class="form-input" name="until-date-input">
+    <input type="date" class="form-input" name="until-date-input" data-ng-model="todoDate">
+    <input type="time" class="form-input" name="until-date-input" data-ng-model="todoTime">
   </label>
   <br>
-  <button class="btn btn-primary">Add</button>
+  <button class="btn btn-primary" data-ng-click="add()">Add</button>
   <h3>Todo items</h3>
   <ul>
-    <li>
-      <a href="#">{{todo.title}}</a>
-      <a href="#">[X]</a>
+    <li data-ng-repeat="todo in todos">
+      <a href="#" data-ng-click="details(todo)">{{todo.title}}</a>
+      <a href="#" data-ng-click="remove(todo)">[X]</a>
     </li>
   </ul>
   <br>
-  <div id="todo-details">
+  <div id="todo-details" ng-show="!!todo">
     <h3>Todo details for #{{todo.id}}</h3>
     <div>Title: {{todo.title}}</div>
     <div>Created: {{todo.created}}</div>
